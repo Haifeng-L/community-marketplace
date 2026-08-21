@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "CommonJS",
+    "strict": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "typeRoots": ["./node_modules/@types", "./node_modules/miniprogram-api-typings"],
+    "lib": ["ES2020"],
+    "skipLibCheck": true
+  },
+  "include": ["miniprogram/**/*.ts"],
+  "exclude": ["node_modules", "cloudfunctions"]
+}

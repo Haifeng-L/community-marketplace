@@ -1,0 +1,20 @@
+.hero { background: linear-gradient(135deg,#0f9b82,#45c1a9); color:#fff; padding:40rpx 32rpx; }
+.hero-title { font-size:48rpx; font-weight:800; }
+.hero-subtitle { margin-top:14rpx; opacity:.9; line-height:1.6; }
+.hero-button { margin:30rpx 0 0; width:220rpx; background:#fff; color:#087f6b; }
+.notice { margin-top:20rpx; display:flex; align-items:center; gap:14rpx; }
+.notice-text { flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.category-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:30rpx 12rpx; }
+.category { text-align:center; font-size:24rpx; }
+.category-icon { font-size:48rpx; margin-bottom:10rpx; }
+.title-row,.listing-bottom,.welfare { display:flex; justify-content:space-between; align-items:center; }
+.more { color:#087f6b; font-size:26rpx; }
+.listing { display:flex; margin-bottom:18rpx; }
+.cover { width:150rpx; height:150rpx; background:#f0f3f4; border-radius:16rpx; display:flex; align-items:center; justify-content:center; font-size:58rpx; flex-shrink:0; }
+.cover image { width:100%; height:100%; border-radius:16rpx; }
+.listing-main { margin-left:22rpx; min-width:0; flex:1; }
+.listing-title { font-size:32rpx; font-weight:700; }
+.desc { margin:12rpx 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.price { font-size:32rpx; }
+.welfare { margin-top:30rpx; }
+.welfare-title { font-weight:700; margin-bottom:8rpx; }

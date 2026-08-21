@@ -1,0 +1,17 @@
+<view class="container">
+  <view class="card report" wx:for="{{reports}}" wx:key="id" data-id="{{item.listingId}}" bindtap="goDetail">
+    <view class="report-head">
+      <view class="title">{{item.listingTitle}}</view>
+      <view class="status status-{{item.status}}">{{statusText[item.status]}}</view>
+    </view>
+    <view class="reason">举报原因：{{item.reason}}</view>
+    <view class="note" wx:if="{{item.note}}">补充说明：{{item.note}}</view>
+    <view class="result" wx:if="{{item.result}}">处理结果：{{item.result}}</view>
+    <view class="muted date">提交时间：{{item.createdAt}}</view>
+  </view>
+  <view class="empty card" wx:if="{{!reports.length}}">
+    <view class="empty-icon">🚩</view>
+    <view>暂无举报记录</view>
+    <view class="muted hint">在物品详情页点击“举报该信息”后，可在这里查看进度。</view>
+  </view>
+</view>

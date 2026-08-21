@@ -1,0 +1,5 @@
+.intro { text-align:center; }
+.emoji { font-size:90rpx; }
+.title,.promo-title { font-size:40rpx; font-weight:800; margin:16rpx 0; }
+.promo { margin-top:20rpx; }
+.promo button { margin:28rpx 0 0; }

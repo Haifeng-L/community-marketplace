@@ -1,0 +1,15 @@
+page {
+  background: #f6f7f8;
+  color: #252b31;
+  font-size: 28rpx;
+}
+.container { padding: 24rpx; }
+.card { background: #fff; border-radius: 20rpx; padding: 24rpx; box-shadow: 0 4rpx 18rpx rgba(31,45,61,.05); }
+.section-title { font-size: 34rpx; font-weight: 700; margin: 32rpx 0 20rpx; }
+.primary-button { background: #16a085; color: #fff; border-radius: 999rpx; font-weight: 600; }
+.secondary-button { background: #eaf7f4; color: #087f6b; border-radius: 999rpx; }
+.muted { color: #8a929b; }
+.price { color: #ef6c45; font-size: 36rpx; font-weight: 700; }
+.tag { display: inline-block; padding: 6rpx 14rpx; border-radius: 999rpx; background: #eaf7f4; color: #087f6b; font-size: 22rpx; }
+.empty { text-align: center; color: #8a929b; padding: 100rpx 20rpx; }
+button::after { border: 0; }

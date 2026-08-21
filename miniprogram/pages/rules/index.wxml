@@ -1,0 +1,19 @@
+<view class="container">
+  <view class="card article">
+    <view class="article-title">社区规则与安全提示</view>
+    <view class="heading">一、平台定位</view>
+    <view>本平台面向本小区居民，免费提供闲置物品信息展示。平台不参与定价、付款、交付、售后，不收取交易佣金。</view>
+    <view class="heading">二、允许发布</view>
+    <view>居民闲置的家具、家电、母婴用品、儿童玩具、书籍、数码产品、运动用品等，以及真实有效的免费赠送信息。</view>
+    <view class="heading">三、禁止发布</view>
+    <view>禁止发布烟酒、药品、危险品、活体动物、食品尤其是自制食品、账号和虚拟商品、侵权盗版物、投资贷款兼职信息、外部商业广告及其他法律法规或平台规则禁止的内容。</view>
+    <view class="heading">四、发布者责任</view>
+    <view>发布者应保证物品来源合法、描述真实，并主动说明瑕疵。已预定、已出或不再出售的物品，应及时更新状态或下架。</view>
+    <view class="heading">五、交易安全</view>
+    <view>建议在小区公共区域当面验货；贵重物品核对来源和功能；不要向陌生人提前转账；未成年人交易请由监护人陪同。</view>
+    <view class="heading">六、推广说明</view>
+    <view>如开放“邻里福利”专区，商业内容会单独展示并明确标注“推广”或“店主推荐”，不会伪装成居民闲置。</view>
+    <view class="heading">七、免责声明</view>
+    <view>平台仅提供信息技术服务。交易双方因物品质量、价格、付款、交付产生的争议，由双方自行协商处理。</view>
+  </view>
+</view>

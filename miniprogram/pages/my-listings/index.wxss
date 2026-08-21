@@ -1,0 +1,9 @@
+.item { margin-bottom:18rpx; }
+.item-main { display:flex; }
+.mini-cover { width:130rpx; height:130rpx; background:#eef2f2; border-radius:14rpx; display:flex; align-items:center; justify-content:center; font-size:52rpx; }
+.mini-cover image { width:100%; height:100%; border-radius:14rpx; }
+.info { margin-left:20rpx; flex:1; }
+.title { font-size:32rpx; font-weight:700; margin-bottom:12rpx; }
+.price { margin-top:12rpx; }
+.actions { display:flex; justify-content:flex-end; flex-wrap:wrap; gap:12rpx; margin-top:20rpx; padding-top:18rpx; border-top:1rpx solid #eef0f2; }
+.actions button { margin:0; }

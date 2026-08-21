@@ -1,0 +1,22 @@
+<view class="container">
+  <view class="profile card">
+    <view class="avatar">👤</view>
+    <view>
+      <view class="name">{{displayName}}</view>
+      <view class="muted">{{roleLabel}} · {{cloudLabel}}</view>
+      <view class="muted" style="margin-top: 8rpx;">{{profileHint}}</view>
+    </view>
+  </view>
+  <view class="section-title">我的闲置</view>
+  <view class="menu card">
+    <view class="menu-item" bindtap="goMyListings"><text>📝 我的发布</text><text>›</text></view>
+    <view class="menu-item" bindtap="goMyReports"><text>🛡 我的举报</text><text>›</text></view>
+  </view>
+  <view class="section-title">平台服务</view>
+  <view class="menu card">
+    <view class="menu-item" wx:if="{{isAdmin}}" bindtap="goAdmin"><text>🛠 管理员工作台</text><text>›</text></view>
+    <view class="menu-item" bindtap="goRules"><text>📘 社区规则与安全提示</text><text>›</text></view>
+    <view class="menu-item" bindtap="goWelfare"><text>🎁 邻里福利（预留）</text><text>›</text></view>
+    <view class="menu-item" bindtap="showAbout"><text>ℹ️ 关于平台</text><text>›</text></view>
+  </view>
+</view>

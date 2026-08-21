@@ -1,0 +1,37 @@
+{
+  "pages": [
+    "pages/home/index",
+    "pages/marketplace/index",
+    "pages/publish/index",
+    "pages/detail/index",
+    "pages/mine/index",
+    "pages/my-listings/index",
+    "pages/my-reports/index",
+    "pages/admin-review/index",
+    "pages/admin-reports/index",
+    "pages/rules/index",
+    "pages/welfare/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "三湘邻里闲置",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f6f7f8",
+    "backgroundTextStyle": "light"
+  },
+  "tabBar": {
+    "color": "#7a7e83",
+    "selectedColor": "#16a085",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      { "pagePath": "pages/home/index", "text": "首页" },
+      { "pagePath": "pages/marketplace/index", "text": "广场" },
+      { "pagePath": "pages/publish/index", "text": "发布" },
+      { "pagePath": "pages/mine/index", "text": "我的" }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

@@ -1,0 +1,13 @@
+.image-area { padding:0; overflow:hidden; }
+swiper,.placeholder { height:560rpx; }
+image { width:100%; height:100%; }
+.placeholder { display:flex; justify-content:center; align-items:center; font-size:140rpx; background:#eef2f2; }
+.info,.seller-card,.safe { margin-top:20rpx; }
+.top-row,.seller-card { display:flex; justify-content:space-between; align-items:center; }
+.title { font-size:40rpx; font-weight:800; margin:20rpx 0; }
+.meta { color:#8a929b; display:flex; gap:28rpx; }
+.description { line-height:1.8; }
+.seller-name,.safe-title { font-weight:700; margin-bottom:10rpx; }
+.contact { margin:0; font-size:24rpx; }
+.safe { line-height:1.9; color:#59616a; }
+.report { text-align:center; padding:34rpx; }

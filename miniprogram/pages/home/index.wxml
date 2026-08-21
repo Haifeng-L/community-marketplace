@@ -1,0 +1,45 @@
+<view class="container">
+  <view class="hero card">
+    <view class="hero-title">三湘邻里闲置</view>
+    <view class="hero-subtitle">让闲置继续发挥价值，让邻里交易更方便</view>
+    <button class="primary-button hero-button" bindtap="goMarketplace">去逛逛</button>
+  </view>
+
+  <view class="notice card" bindtap="goRules">
+    <text class="notice-icon">📢</text>
+    <text class="notice-text">{{notice}}</text>
+    <text>›</text>
+  </view>
+
+  <view class="section-title">物品分类</view>
+  <view class="category-grid card">
+    <view class="category" wx:for="{{categories}}" wx:key="id" data-category="{{item.id}}" bindtap="goMarketplace">
+      <view class="category-icon">{{item.icon}}</view>
+      <view>{{item.name}}</view>
+    </view>
+  </view>
+
+  <view class="title-row">
+    <view class="section-title">最新发布</view>
+    <view class="more" bindtap="goMarketplace">查看全部 ›</view>
+  </view>
+  <view wx:if="{{latest.length}}">
+    <view class="listing card" wx:for="{{latest}}" wx:key="id" data-id="{{item.id}}" bindtap="goDetail">
+      <view class="cover"><image wx:if="{{item.images && item.images.length}}" src="{{item.images[0]}}" mode="aspectFill"/><text wx:else>{{item.category === 'free' ? '🎁' : '📦'}}</text></view>
+      <view class="listing-main">
+        <view class="listing-title">{{item.title}}</view>
+        <view class="muted desc">{{item.description}}</view>
+        <view class="listing-bottom">
+          <text class="price">{{item.price === 0 ? '免费' : '¥' + item.price}}</text>
+          <text class="muted">{{item.sellerName}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="empty card" wx:else>暂时没有在售物品</view>
+
+  <view class="welfare card" wx:if="{{welfareEnabled}}" bindtap="goWelfare">
+    <view><view class="welfare-title">邻里福利</view><view class="muted">明确标注的优惠推广专区</view></view>
+    <text>›</text>
+  </view>
+</view>

@@ -1,0 +1,32 @@
+<view class="container">
+  <view class="summary">
+    <view class="summary-item card"><view class="number warning">{{counts.pending}}</view><view class="muted">待处理</view></view>
+    <view class="summary-item card"><view class="number reviewing">{{counts.reviewing}}</view><view class="muted">核实中</view></view>
+    <view class="summary-item card"><view class="number success">{{counts.finished}}</view><view class="muted">已完成</view></view>
+  </view>
+
+  <scroll-view scroll-x class="tabs" show-scrollbar="{{false}}">
+    <view class="tab-row">
+      <view class="tab {{selectedStatus === 'pending' ? 'active' : ''}}" data-status="pending" bindtap="selectStatus">待处理 {{counts.pending}}</view>
+      <view class="tab {{selectedStatus === 'reviewing' ? 'active' : ''}}" data-status="reviewing" bindtap="selectStatus">核实中 {{counts.reviewing}}</view>
+      <view class="tab {{selectedStatus === 'finished' ? 'active' : ''}}" data-status="finished" bindtap="selectStatus">已完成 {{counts.finished}}</view>
+      <view class="tab {{selectedStatus === 'all' ? 'active' : ''}}" data-status="all" bindtap="selectStatus">全部 {{counts.all}}</view>
+    </view>
+  </scroll-view>
+
+  <view class="card report" wx:for="{{visibleReports}}" wx:key="id">
+    <view class="report-head" data-id="{{item.listingId}}" bindtap="goDetail">
+      <view class="title">{{item.listingTitle}}</view>
+      <view class="status status-{{item.status}}">{{statusText[item.status]}}</view>
+    </view>
+    <view class="reason">举报原因：{{item.reason}}</view>
+    <view class="note" wx:if="{{item.note}}">补充说明：{{item.note}}</view>
+    <view class="muted meta">提交时间：{{item.createdAt}}</view>
+    <view class="result" wx:if="{{item.result}}">处理结果：{{item.result}}</view>
+    <view class="muted meta" wx:if="{{item.handledAt}}">处理人：{{item.operatorName || '管理员'}} · {{item.handledAt}}</view>
+    <view class="actions" wx:if="{{item.status === 'pending' || item.status === 'reviewing'}}">
+      <button class="secondary-button" size="mini" data-id="{{item.id}}" bindtap="process">处理举报</button>
+    </view>
+  </view>
+  <view class="empty card" wx:if="{{!visibleReports.length}}">当前分类暂无举报记录</view>
+</view>

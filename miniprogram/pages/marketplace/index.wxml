@@ -1,0 +1,21 @@
+<view class="container">
+  <view class="search card">
+    <text>🔍</text>
+    <input placeholder="搜索婴儿车、书籍、家电……" value="{{keyword}}" bindinput="onKeyword" />
+  </view>
+  <scroll-view class="category-scroll" scroll-x enhanced show-scrollbar="{{false}}">
+    <view class="category-row">
+      <view wx:for="{{categories}}" wx:key="id" class="category-pill {{selectedCategory === item.id ? 'active' : ''}}" data-id="{{item.id}}" bindtap="selectCategory">{{item.name}}</view>
+    </view>
+  </scroll-view>
+  <view class="result-count">共 {{visibleListings.length}} 件</view>
+  <view class="grid" wx:if="{{visibleListings.length}}">
+    <view class="item-card card" wx:for="{{visibleListings}}" wx:key="id" data-id="{{item.id}}" bindtap="goDetail">
+      <view class="cover"><image wx:if="{{item.images && item.images.length}}" class="cover-image" src="{{item.images[0]}}" mode="aspectFill"/><text wx:else>{{item.category === 'free' ? '🎁' : '📦'}}</text><text class="status" wx:if="{{item.status === 'reserved'}}">已预定</text></view>
+      <view class="item-title">{{item.title}}</view>
+      <view class="item-desc">{{item.description}}</view>
+      <view class="item-bottom"><text class="price">{{item.price === 0 ? '免费' : '¥' + item.price}}</text><text class="muted seller">{{item.sellerName}}</text></view>
+    </view>
+  </view>
+  <view class="empty card" wx:else>没有找到相关物品，换个关键词试试</view>
+</view>

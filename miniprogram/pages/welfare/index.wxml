@@ -1,0 +1,5 @@
+<view class="container">
+  <view class="card intro"><view class="emoji">🎁</view><view class="title">邻里福利</view><view class="muted">这是独立的商业推广专区，默认关闭。未来如启用，会明确标注推广内容，为本小区提供专属优惠。</view></view>
+  <view class="card empty" wx:if="{{!enabled}}">当前暂未开放福利活动<br/><text class="muted">先把闲置广场用起来，公益功能稳定后再开放。</text></view>
+  <view class="card promo" wx:else><view class="tag">推广</view><view class="promo-title">小区专属优惠活动</view><view class="muted">活动内容将在后台配置</view><button class="secondary-button" bindtap="copyCode">复制活动口令</button></view>
+</view>

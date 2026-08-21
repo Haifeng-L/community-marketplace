@@ -1,0 +1,28 @@
+{
+  "description": "三湘邻里闲置小程序",
+  "miniprogramRoot": "miniprogram/",
+  "cloudfunctionRoot": "cloudfunctions/",
+  "setting": {
+    "useCompilerPlugins": [
+      "typescript"
+    ],
+    "es6": true,
+    "postcss": true,
+    "minified": true,
+    "minifyWXML": true,
+    "minifyWXSS": true,
+    "uploadWithSourceMap": true,
+    "urlCheck": true,
+    "coverView": true
+  },
+  "compileType": "miniprogram",
+  "appid": "",
+  "projectname": "community-marketplace",
+  "libVersion": "3.17.1",
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "condition": {},
+  "simulatorPluginLibVersion": {}
+}

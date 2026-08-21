@@ -1,0 +1,13 @@
+.report { margin-bottom: 18rpx; }
+.report-head { display:flex; justify-content:space-between; align-items:flex-start; gap:20rpx; }
+.title { flex:1; font-size:32rpx; font-weight:700; }
+.status { flex-shrink:0; padding:6rpx 14rpx; border-radius:999rpx; font-size:22rpx; }
+.status-pending { background:#fff7e6; color:#d46b08; }
+.status-reviewing { background:#e6f4ff; color:#1677ff; }
+.status-resolved { background:#eaf7f4; color:#087f6b; }
+.status-dismissed { background:#f1f2f3; color:#687078; }
+.reason { margin-top:20rpx; color:#3c444b; }
+.note,.result { margin-top:12rpx; color:#59616a; line-height:1.6; }
+.date { margin-top:18rpx; font-size:24rpx; }
+.empty-icon { font-size:72rpx; margin-bottom:20rpx; }
+.hint { margin-top:14rpx; line-height:1.6; }

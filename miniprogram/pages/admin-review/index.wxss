@@ -1,0 +1,12 @@
+.workbench { display:flex; align-items:center; justify-content:space-between; gap:18rpx; margin-bottom:20rpx; }
+.workbench > view:first-child { flex:1; }
+.workbench-title { font-size:32rpx; font-weight:700; margin-bottom:8rpx; }
+.badge { min-width:38rpx; height:38rpx; padding:0 8rpx; border-radius:999rpx; background:#e34d59; color:#fff; font-size:22rpx; line-height:38rpx; text-align:center; }
+.admin-tip { color:#087f6b; line-height:1.6; margin-bottom:20rpx; }
+.result-count { color:#8a929b; margin-bottom:16rpx; }
+.review-item { margin-bottom:18rpx; }
+.title { font-size:32rpx; font-weight:700; }
+.desc { margin:12rpx 0; color:#59616a; line-height:1.6; }
+.actions { display:flex; justify-content:flex-end; gap:14rpx; margin-top:20rpx; }
+.actions button { margin:0; }
+.danger-button { background:#fff1f0; color:#d54941; border-radius:999rpx; }
