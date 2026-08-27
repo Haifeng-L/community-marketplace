@@ -11,7 +11,8 @@
 
 ## 运行前置
 
-1. 使用正式小程序 AppID 导入 `D:\myProjects\community-marketplace`。
+1. 复制 `project.private.config.example.json` 为 `project.private.config.json`，在其中填写本地正式小程序 AppID（该文件已被 Git 忽略）。
+2. 使用正式小程序 AppID 导入 `D:\myProjects\community-marketplace`。
 2. 在 `miniprogram/config/runtime.ts` 配置 CloudBase 环境 ID。
 3. 创建数据库集合并配置权限。
 4. 部署 `cloudfunctions/` 下全部云函数。

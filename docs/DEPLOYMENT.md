@@ -2,7 +2,8 @@
 
 ## 1. 小程序与环境
 
-1. 使用正式小程序 AppID 导入 `D:\myProjects\community-marketplace`。
+1. 复制 `project.private.config.example.json` 为 `project.private.config.json`，仅在本地填写正式小程序 AppID（该文件不会提交到 Git）。
+2. 使用正式小程序 AppID 导入 `D:\myProjects\community-marketplace`。
 2. 在 `miniprogram/config/runtime.ts` 填写 CloudBase 环境 ID。
 3. 确认 CloudBase 环境已关联当前小程序 AppID。
 
