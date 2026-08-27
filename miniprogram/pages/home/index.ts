@@ -1,4 +1,4 @@
-import { categories } from '../../services/seed'
+import { categories } from '../../services/catalog'
 import { listingService } from '../../services/listing'
 import type { Listing } from '../../types/listing'
 

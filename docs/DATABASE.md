@@ -2,28 +2,18 @@
 
 ## 集合
 
-- `users`：`openid`、`role`（`user/admin/owner`）、`disabled`、`displayName`、`avatarUrl`、`verifiedAt`
-- `listings`：物品和发布者信息，`status` 为 `pending/active/reserved/sold/offline/rejected`
+- `users`：`openid`、`role`（`user/admin/owner`）、`disabled`、`displayName`（社区昵称）、`avatarUrl`（当前展示头像）、`wechatNickname`（微信原始昵称）、`wechatAvatarUrl`（微信原始头像）、`verifiedAt`
+- `listings`：物品和发布者信息
 - `categories`：分类和排序
 - `reports`：举报原因、处理状态和处理记录
 - `auditLogs`：管理审核、封禁、配置修改等操作记录
 - `promotions`：独立推广内容，默认不启用
-- `settings`：社区名称、邀请码、有效期、推广开关
-
-## 建议索引
-
-在 CloudBase 数据库控制台为以下字段建立索引：
-
-- `listings`: `status + createdAt`
-- `listings`: `category + status + createdAt`
-- `listings`: `openid + createdAt`
-- `reports`: `status + createdAt`
-- `auditLogs`: `targetType + targetId + createdAt`
+- `settings`：社区配置
 
 ## 权限原则
 
-不要让前端直接拥有管理员写权限。普通用户的创建、更新状态、举报都应该走云函数；管理审核必须在 `reviewListing`、`handleReport` 这类云函数里再次根据 `users.role` 校验，不能只信任前端传入的角色。
+前端不直接写数据库。普通用户和管理员都通过云函数访问数据；管理员云函数必须再次查询 `users.role`，不能只信任前端显示状态。
 
-## 本地演示与云端切换
+## 用户资料
 
-目前页面仍保留本地缓存演示。接入 CloudBase 后，`miniprogram/services/session.ts` 会同步当前微信用户，`mine` 页面会根据 `role` 自动显示或隐藏管理员入口。
+微信 `openid` 可以由 CloudBase 云函数自动获得，但昵称和头像需要用户在“我的”页面主动点击并授权。授权后前端调用 `updateCurrentUser`，把社区展示昵称保存到 `users.displayName`，并把微信原始资料保存到 `users.wechatNickname`、`users.wechatAvatarUrl`。用户编辑的是社区昵称，不会修改微信本身昵称。

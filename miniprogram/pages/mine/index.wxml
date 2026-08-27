@@ -1,22 +1,19 @@
 <view class="container">
   <view class="profile card">
-    <view class="avatar">👤</view>
-    <view>
-      <view class="name">{{displayName}}</view>
-      <view class="muted">{{roleLabel}} · {{cloudLabel}}</view>
-      <view class="muted" style="margin-top: 8rpx;">{{profileHint}}</view>
-    </view>
+    <view class="avatar-wrap"><image wx:if="{{avatarUrl}}" class="avatar-image" src="{{avatarUrl}}" mode="aspectFill" /><view wx:else class="avatar">👤</view></view>
+    <view class="profile-info"><view class="name">{{displayName}}</view><view class="muted">{{roleLabel}}</view><view class="muted profile-hint">{{profileHint}}</view></view>
+    <button wx:if="{{!editingName && !showProfilePrompt}}" class="profile-edit" hover-class="profile-edit-hover" catchtap="startEditName">编辑</button>
+  </view>
+  <view wx:if="{{showProfilePrompt}}" class="profile-prompt card">
+    <view class="prompt-copy"><view class="prompt-title">完善头像和昵称</view><view class="muted">让邻居更容易认出你，发布信息更有信任感</view></view>
+    <button class="prompt-action" hover-class="prompt-action-hover" open-type="agreePrivacyAuthorization" bindagreeprivacyauthorization="handlePrivacyAgree">去授权</button>
+  </view>
+  <view wx:if="{{editingName}}" class="name-editor card">
+    <input class="name-input" maxlength="20" value="{{draftName}}" placeholder="请输入社区昵称" bindinput="onNameInput" confirm-type="done" bindconfirm="saveName" />
+    <view class="name-actions"><text class="name-cancel" bindtap="cancelEditName">取消</text><text class="name-save" bindtap="saveName">保存</text></view>
   </view>
   <view class="section-title">我的闲置</view>
-  <view class="menu card">
-    <view class="menu-item" bindtap="goMyListings"><text>📝 我的发布</text><text>›</text></view>
-    <view class="menu-item" bindtap="goMyReports"><text>🛡 我的举报</text><text>›</text></view>
-  </view>
+  <view class="menu card"><view class="menu-item" bindtap="goMyListings"><text>📝 我的发布</text><text>›</text></view><view class="menu-item" bindtap="goMyReports"><text>🛡 我的举报</text><text>›</text></view></view>
   <view class="section-title">平台服务</view>
-  <view class="menu card">
-    <view class="menu-item" wx:if="{{isAdmin}}" bindtap="goAdmin"><text>🛠 管理员工作台</text><text>›</text></view>
-    <view class="menu-item" bindtap="goRules"><text>📘 社区规则与安全提示</text><text>›</text></view>
-    <view class="menu-item" bindtap="goWelfare"><text>🎁 邻里福利（预留）</text><text>›</text></view>
-    <view class="menu-item" bindtap="showAbout"><text>ℹ️ 关于平台</text><text>›</text></view>
-  </view>
+  <view class="menu card"><view class="menu-item" wx:if="{{isAdmin}}" bindtap="goAdmin"><text>🛠 管理员工作台</text><text>›</text></view><view class="menu-item" bindtap="goRules"><text>📘 社区规则与安全提示</text><text>›</text></view><view class="menu-item" bindtap="goWelfare"><text>🎁 邻里福利（预留）</text><text>›</text></view><view class="menu-item" bindtap="openPrivacyContract"><text>🔒 用户隐私保护指引</text><text>›</text></view><view class="menu-item" bindtap="showAbout"><text>ℹ️ 关于平台</text><text>›</text></view></view>
 </view>

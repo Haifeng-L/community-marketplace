@@ -17,7 +17,14 @@
     <view class="label required">联系信息</view>
     <view class="contact-row"><picker class="contact-picker" range="{{contactOptions}}" value="{{contactIndex}}" bindchange="onContactType"><view class="control picker">{{contactOptions[contactIndex]}} ›</view></picker><input class="control contact-input" placeholder="仅用于邻里联系" data-field="contactValue" value="{{form.contactValue}}" bindinput="onField"/></view>
     <view class="switch-row"><text>接受议价</text><switch color="#16a085" checked="{{form.negotiable}}" bindchange="onNegotiable"/></view>
-    <checkbox-group bindchange="onAgreement"><label class="agreement"><checkbox value="yes" color="#16a085" checked="{{agreed}}"/><text>我已阅读并同意《发布规则》，保证信息真实、来源合法</text></label></checkbox-group>
+    <checkbox-group bindchange="onAgreement">
+      <label class="agreement">
+        <checkbox value="yes" color="#16a085" checked="{{agreed}}"/>
+        <view class="agreement-text">
+          <text>我已阅读并同意</text><text class="rules-link" catchtap="goRules">《发布规则》</text><text>和</text><text class="rules-link" catchtap="openPrivacyContract">《隐私保护指引》</text><text>，保证信息真实、来源合法</text>
+        </view>
+      </label>
+    </checkbox-group>
     <button class="primary-button submit" loading="{{submitting}}" disabled="{{submitting}}" bindtap="submit">提交审核</button>
   </view>
 </view>

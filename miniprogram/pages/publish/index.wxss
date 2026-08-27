@@ -17,4 +17,6 @@
 .plus { font-size:52rpx; }
 .switch-row { justify-content:space-between; margin:28rpx 0; }
 .agreement { display:flex; align-items:flex-start; gap:10rpx; color:#59616a; font-size:24rpx; line-height:1.6; }
+.agreement-text { flex:1; }
+.rules-link { color:#087f6b; text-decoration:underline; }
 .submit { margin-top:36rpx; }

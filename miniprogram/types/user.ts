@@ -6,6 +6,8 @@ export interface CloudUser {
   role: CloudRole
   disabled: boolean
   displayName: string
+  wechatNickname?: string
   avatarUrl?: string
+  wechatAvatarUrl?: string
   verifiedAt?: string | null
 }
