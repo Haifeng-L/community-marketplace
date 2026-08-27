@@ -1,25 +1,32 @@
-<view class="container" wx:if="{{item}}">
-  <view class="image-area card">
-    <swiper wx:if="{{item.images.length}}" indicator-dots circular><swiper-item wx:for="{{item.images}}" wx:key="*this"><image src="{{item}}" mode="aspectFill" /></swiper-item></swiper>
-    <view class="placeholder" wx:else>📦</view>
-  </view>
-  <view class="card info">
-    <view class="top-row"><text class="price">{{item.price === 0 ? '免费' : '¥' + item.price}}</text><text class="tag">{{statusText}}</text></view>
-    <view class="title">{{item.title}}</view>
-    <view class="meta"><text>{{item.condition}}</text><text wx:if="{{item.negotiable}}">可议价</text><text>{{item.createdAt}}</text></view>
-    <view class="section-title">物品描述</view>
-    <view class="description">{{item.description}}</view>
-  </view>
-  <view class="card seller-card">
-    <view><view class="seller-name">{{item.sellerName}}</view><view class="muted">{{item.building || '小区居民'}} · 建议公共区域当面交付</view></view>
-    <button class="secondary-button contact" bindtap="copyContact">复制联系信息</button>
-  </view>
-  <view class="safe card">
-    <view class="safe-title">交易安全提示</view>
-    <view>• 当面验货后再付款，不提前转账</view>
-    <view>• 贵重物品请核对来源与功能</view>
-    <view>• 平台仅提供信息展示，不参与交易</view>
-  </view>
-  <view class="report muted" bindtap="report">举报该信息</view>
+<view class="container">
+  <view wx:if="{{loading}}" class="loading card">正在加载物品信息…</view>
+  <view wx:elif="{{loadError}}" class="empty card">{{loadError}}</view>
+  <block wx:else>
+    <view class="image-area card">
+      <swiper wx:if="{{item.images.length}}" indicator-dots circular><swiper-item wx:for="{{item.images}}" wx:key="*this"><image src="{{item}}" mode="aspectFill" /></swiper-item></swiper>
+      <view class="placeholder" wx:else>📦</view>
+    </view>
+    <view class="card info">
+      <view class="top-row"><text class="price">{{item.price === 0 ? '免费' : '¥' + item.price}}</text><text class="tag">{{statusText}}</text></view>
+      <view class="title">{{item.title}}</view>
+      <view class="meta"><text>{{item.condition}}</text><text wx:if="{{item.negotiable}}">可议价</text><text>{{formattedDate}}</text></view>
+      <view class="section-title">物品描述</view>
+      <view class="description">{{item.description}}</view>
+    </view>
+    <view class="card seller-card">
+      <view class="seller-info">
+        <view class="seller-name">{{item.sellerName}}</view>
+        <view class="muted seller-building">{{item.building || '小区居民'}}</view>
+        <view class="muted seller-tip">建议公共区域当面交付</view>
+      </view>
+      <button class="secondary-button contact" bindtap="copyContact">复制{{contactLabel}}</button>
+    </view>
+    <view class="safe card">
+      <view class="safe-title">交易安全提示</view>
+      <view>• 当面验货后再付款，不提前转账</view>
+      <view>• 贵重物品请核对来源与功能</view>
+      <view>• 平台仅提供信息展示，不参与交易</view>
+    </view>
+    <view class="report muted" bindtap="report">举报该信息</view>
+  </block>
 </view>
-<view class="empty" wx:else>物品不存在或已删除</view>

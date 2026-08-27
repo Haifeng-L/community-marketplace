@@ -2,6 +2,9 @@
 .form { padding:30rpx; }
 .label { font-weight:700; margin:30rpx 0 14rpx; }
 .label.required::after { content:' *'; color:#e34d59; }
+.label-row { display:flex; align-items:center; justify-content:space-between; margin:30rpx 0 14rpx; }
+.label-row .label { margin:0; }
+.remain { font-size:22rpx; color:#a3adb3; font-weight:400; }
 .control,.textarea { box-sizing:border-box; width:100%; background:#f6f7f8; border-radius:14rpx; padding:22rpx; min-height:82rpx; }
 .textarea { height:220rpx; }
 .picker { color:#59616a; }

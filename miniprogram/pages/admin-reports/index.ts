@@ -8,6 +8,7 @@ const actionOptions: Array<{ label: string; action: ReportAction; confirm?: stri
   { label: '标记已出', action: 'markSold', confirm: '确认将该物品标记为已出吗？' },
   { label: '要求修改', action: 'requestEdit', confirm: '该物品将暂时下架，等待发布者修改。是否继续？' },
   { label: '警告发布者', action: 'warnUser', confirm: '确认记录一次警告吗？' },
+  { label: '限制发布者', action: 'disableUser', confirm: '将下架该用户所有在售物品，并限制其继续发布。此操作仅用于多次或严重违规，是否继续？' },
   { label: '举报不成立', action: 'dismiss', confirm: '确认未发现违规并驳回举报吗？' },
 ]
 

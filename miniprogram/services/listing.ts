@@ -33,16 +33,7 @@ export const listingService = {
   async create(input: Omit<Listing, 'id' | 'createdAt' | 'expiresAt' | 'views' | 'status'>): Promise<Listing> {
     const images = await uploadImages(input.images)
     const result = await wx.cloud.callFunction({ name: 'createListing', data: { ...input, images } }) as unknown as { result: { id: string } }
-    return { ...input, id: result.result.id, status: 'pending', views: 0, createdAt: new Date().toISOString().slice(0, 10), expiresAt: '', images }
-  },
-  async listPending(): Promise<Listing[]> {
-    ensureCloudInitialized()
-    const result = await wx.cloud.callFunction({ name: 'listPendingListings' }) as unknown as { result: { data: Listing[] } }
-    return result.result.data
-  },
-  async review(id: string, decision: 'approve' | 'reject'): Promise<void> {
-    ensureCloudInitialized()
-    await wx.cloud.callFunction({ name: 'reviewListing', data: { id, decision } })
+    return { ...input, id: result.result.id, status: 'active', views: 0, createdAt: new Date().toISOString().slice(0, 10), expiresAt: '', images }
   },
   async updateStatus(id: string, status: Listing['status']): Promise<void> {
     ensureCloudInitialized()

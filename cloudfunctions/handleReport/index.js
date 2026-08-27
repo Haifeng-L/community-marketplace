@@ -14,6 +14,7 @@ const actions = {
   markSold: { status: 'resolved', result: '物品已标记为已出，不再展示', listingStatus: 'sold' },
   requestEdit: { status: 'resolved', result: '已暂时下架，并要求发布者修改信息后重新提交', listingStatus: 'offline', offlineReason: 'requires_edit' },
   warnUser: { status: 'resolved', result: '已提醒并警告发布者遵守社区规则' },
+  disableUser: { status: 'resolved', result: '发布者已被限制发布，相关在售物品已下架', disableUser: true, listingStatus: 'offline', offlineReason: 'user_disabled' },
   dismiss: { status: 'dismissed', result: '经核实暂未发现违规，举报不成立' },
 }
 
@@ -35,6 +36,10 @@ exports.main = async (event) => {
     const listingPatch = { status: config.listingStatus, updatedAt: db.serverDate() }
     if (config.offlineReason) listingPatch.offlineReason = config.offlineReason
     await db.collection('listings').doc(report.listingId).update({ data: listingPatch })
+  }
+  if (listing && config.disableUser) {
+    await db.collection('users').where({ openid: listing.openid }).update({ data: { disabled: true, disabledAt: db.serverDate(), disabledReason: 'report' } })
+    await db.collection('listings').where({ openid: listing.openid, status: db.command.in(['active', 'reserved']) }).update({ data: { status: 'offline', offlineReason: 'user_disabled', updatedAt: db.serverDate() } })
   }
 
   await db.collection('reports').doc(id).update({ data: {

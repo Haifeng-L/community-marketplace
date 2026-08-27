@@ -1,5 +1,5 @@
 export type ReportStatus = 'pending' | 'reviewing' | 'resolved' | 'dismissed'
-export type ReportAction = 'startReview' | 'hideListing' | 'markSold' | 'requestEdit' | 'warnUser' | 'dismiss'
+export type ReportAction = 'startReview' | 'hideListing' | 'markSold' | 'requestEdit' | 'warnUser' | 'disableUser' | 'dismiss'
 
 export interface ReportRecord {
   id: string

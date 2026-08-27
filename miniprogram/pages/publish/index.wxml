@@ -6,16 +6,27 @@
       <view class="image-wrap" wx:for="{{images}}" wx:key="*this"><image src="{{item}}" mode="aspectFill"/><view class="remove" data-index="{{index}}" bindtap="removeImage">×</view></view>
       <view class="add-image" wx:if="{{images.length < 6}}" bindtap="chooseImages"><text class="plus">＋</text><text>添加图片</text><text>{{images.length}}/6</text></view>
     </view>
-    <view class="label required">物品名称</view><input class="control" maxlength="30" placeholder="例如：九成新儿童自行车" data-field="title" value="{{form.title}}" bindinput="onField"/>
+    <view class="label-row"><view class="label required">物品名称</view><text class="remain">{{remain.title}}/{{limits.title}}</text></view>
+    <input class="control" maxlength="{{limits.title}}" placeholder="例如：九成新儿童自行车" data-field="title" value="{{form.title}}" bindinput="onField"/>
     <view class="row">
       <view class="half"><view class="label required">分类</view><picker range="{{categories}}" range-key="name" value="{{categoryIndex}}" bindchange="onCategory"><view class="control picker">{{categories[categoryIndex].name}} ›</view></picker></view>
       <view class="half"><view class="label required">价格（元）</view><input class="control" type="digit" placeholder="0表示免费" data-field="price" value="{{form.price}}" bindinput="onField"/></view>
     </view>
     <view class="label required">新旧程度</view><picker range="{{conditionOptions}}" value="{{conditionIndex}}" bindchange="onCondition"><view class="control picker">{{conditionOptions[conditionIndex]}} ›</view></picker>
-    <view class="label required">物品描述</view><textarea class="textarea" maxlength="500" placeholder="请说明尺寸、功能、使用情况和瑕疵……" data-field="description" value="{{form.description}}" bindinput="onField"/>
-    <view class="row"><view class="half"><view class="label required">群内昵称</view><input class="control" placeholder="例如：5-1/海丰" data-field="sellerName" value="{{form.sellerName}}" bindinput="onField"/></view><view class="half"><view class="label">楼栋</view><input class="control" placeholder="选填" data-field="building" value="{{form.building}}" bindinput="onField"/></view></view>
-    <view class="label required">联系信息</view>
-    <view class="contact-row"><picker class="contact-picker" range="{{contactOptions}}" value="{{contactIndex}}" bindchange="onContactType"><view class="control picker">{{contactOptions[contactIndex]}} ›</view></picker><input class="control contact-input" placeholder="仅用于邻里联系" data-field="contactValue" value="{{form.contactValue}}" bindinput="onField"/></view>
+    <view class="label-row"><view class="label required">物品描述</view><text class="remain">{{remain.description}}/{{limits.description}}</text></view>
+    <textarea class="textarea" maxlength="{{limits.description}}" placeholder="请说明尺寸、功能、使用情况和瑕疵……" data-field="description" value="{{form.description}}" bindinput="onField"/>
+    <view class="row">
+      <view class="half">
+        <view class="label-row"><view class="label required">群内昵称</view><text class="remain">{{remain.sellerName}}/{{limits.sellerName}}</text></view>
+        <input class="control" maxlength="{{limits.sellerName}}" placeholder="例如：5-1/海丰" data-field="sellerName" value="{{form.sellerName}}" bindinput="onField"/>
+      </view>
+      <view class="half">
+        <view class="label-row"><view class="label">楼栋</view><text class="remain">{{remain.building}}/{{limits.building}}</text></view>
+        <input class="control" maxlength="{{limits.building}}" placeholder="选填" data-field="building" value="{{form.building}}" bindinput="onField"/>
+      </view>
+    </view>
+    <view class="label-row"><view class="label required">联系信息</view><text class="remain">{{remain.contactValue}}/{{contactIndex === 2 ? limits.contactPhone : limits.contactValue}}</text></view>
+    <view class="contact-row"><picker class="contact-picker" range="{{contactOptions}}" value="{{contactIndex}}" bindchange="onContactType"><view class="control picker">{{contactOptions[contactIndex]}} ›</view></picker><input class="control contact-input" maxlength="{{contactIndex === 2 ? limits.contactPhone : limits.contactValue}}" type="{{contactIndex === 2 ? 'number' : 'text'}}" placeholder="仅用于邻里联系" data-field="contactValue" value="{{form.contactValue}}" bindinput="onField"/></view>
     <view class="switch-row"><text>接受议价</text><switch color="#16a085" checked="{{form.negotiable}}" bindchange="onNegotiable"/></view>
     <checkbox-group bindchange="onAgreement">
       <label class="agreement">
@@ -25,6 +36,6 @@
         </view>
       </label>
     </checkbox-group>
-    <button class="primary-button submit" loading="{{submitting}}" disabled="{{submitting}}" bindtap="submit">提交审核</button>
+    <button class="primary-button submit" loading="{{submitting}}" disabled="{{submitting}}" bindtap="submit">立即发布</button>
   </view>
 </view>

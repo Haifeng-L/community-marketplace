@@ -10,3 +10,4 @@
 .actions { display:flex; justify-content:flex-end; gap:14rpx; margin-top:20rpx; }
 .actions button { margin:0; }
 .danger-button { background:#fff1f0; color:#d54941; border-radius:999rpx; }
+.admin-note { color:#59616a; line-height:1.7; }
