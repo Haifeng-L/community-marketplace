@@ -2,6 +2,7 @@ const cloud = require('wx-server-sdk')
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 const db = cloud.database()
 
+const LISTING_EXPIRE_DAYS = 90
 const BLOCKED_TERMS = ['二维码', '加微信', '兼职', '贷款', '博彩', '赌博', '色情', '枪支', '毒品', '香烟', '烟草', '处方药']
 
 const LIMITS = {
@@ -25,6 +26,12 @@ async function assertEnabledUser(openid) {
   if (result.data[0]?.disabled) throw new Error('当前账号已被限制发布，请联系管理员')
 }
 
+function buildExpiresAt() {
+  const expiresAt = new Date()
+  expiresAt.setDate(expiresAt.getDate() + LISTING_EXPIRE_DAYS)
+  return expiresAt
+}
+
 exports.main = async (event) => {
   const wxContext = cloud.getWXContext()
   const { title, category, description, price, condition, images, sellerName, building, contactType, contactValue, negotiable } = event
@@ -41,7 +48,7 @@ exports.main = async (event) => {
   if (priceNum > LIMITS.priceMax) throw new Error(`价格不能超过${LIMITS.priceMax}`)
   assertAllowedContent(title, description)
   await assertEnabledUser(wxContext.OPENID)
-  const now = new Date(); const expiresAt = new Date(now); expiresAt.setDate(expiresAt.getDate() + 30)
-  const result = await db.collection('listings').add({ data: { openid: wxContext.OPENID, title:String(title).trim(), category, description:String(description).trim(), price:priceNum, condition, images, sellerName:String(sellerName).trim(), building:building ? String(building).trim() : '', contactType, contactValue:String(contactValue).trim(), negotiable:Boolean(negotiable), status:'active', auditStatus:'auto', views:0, createdAt:db.serverDate(), expiresAt } })
-  return { id: result._id }
+  const expiresAt = buildExpiresAt()
+  const result = await db.collection('listings').add({ data: { openid: wxContext.OPENID, title:String(title).trim(), category, description:String(description).trim(), price:priceNum, condition, images, sellerName:String(sellerName).trim(), building:building ? String(building).trim() : '', contactType, contactValue:String(contactValue).trim(), negotiable:Boolean(negotiable), status:'active', auditStatus:'checking', auditMessage:'图片检测中', views:0, createdAt:db.serverDate(), expiresAt } })
+  return { id: result._id, expiresAt }
 }

@@ -1,10 +1,12 @@
 <view class="container">
   <view class="card item" wx:for="{{listings}}" wx:key="id">
-    <view class="item-main" data-id="{{item.id}}" bindtap="goDetail"><view class="mini-cover"><image wx:if="{{item.images && item.images.length}}" src="{{item.images[0]}}" mode="aspectFill"/><text wx:else>📦</text></view><view class="info"><view class="title">{{item.title}}</view><view class="muted">{{item.createdAt}} · {{item.status}}</view><view class="price">{{item.price === 0 ? '免费' : '¥' + item.price}}</view></view></view>
+    <view class="item-main" data-id="{{item.id}}" bindtap="goDetail"><view class="mini-cover"><image wx:if="{{item.images && item.images.length}}" src="{{item.images[0]}}" mode="aspectFill"/><text wx:else>📦</text></view><view class="info"><view class="title">{{item.title}}</view><view class="muted">{{item.createdAt}} · {{item.statusLabel}}</view><view class="price">{{item.price === 0 ? '免费' : '¥' + item.price}}</view></view></view>
     <view class="actions">
       <button size="mini" wx:if="{{item.status === 'active'}}" data-id="{{item.id}}" data-status="reserved" bindtap="updateStatus">标记预定</button>
       <button size="mini" wx:if="{{item.status === 'active' || item.status === 'reserved'}}" data-id="{{item.id}}" data-status="sold" bindtap="updateStatus">标记已出</button>
-      <button size="mini" wx:if="{{item.status !== 'offline'}}" data-id="{{item.id}}" data-status="offline" bindtap="updateStatus">下架</button>
+      <button size="mini" wx:if="{{item.status === 'active' || item.status === 'reserved'}}" data-id="{{item.id}}" data-status="offline" bindtap="updateStatus">下架</button>
+      <button size="mini" wx:if="{{item.status === 'offline'}}" data-id="{{item.id}}" data-status="active" bindtap="updateStatus">重新上架</button>
+      <button size="mini" wx:if="{{item.auditStatus === 'checking'}}" data-id="{{item.id}}" bindtap="retryImageCheck">重新检测</button>
     </view>
   </view>
   <view class="empty card" wx:if="{{!listings.length}}">还没有发布过物品</view>

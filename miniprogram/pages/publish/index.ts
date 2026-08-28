@@ -12,6 +12,37 @@ const LIMITS = {
   priceMax: 9999999.99,
 } as const
 
+function getPublishErrorMessage(error: unknown): string {
+  console.error('publish listing failed', error)
+  const raw = error instanceof Error
+    ? error.message
+    : String((error as { errMsg?: string; message?: string } | undefined)?.errMsg
+      || (error as { message?: string } | undefined)?.message
+      || error
+      || '')
+
+  const knownMessages = [
+    '图片可能含有违规内容，请更换后再发布',
+    '图片内容安全检测不可用，请确认云函数 openapi 权限后重试',
+    '图片上传异常，请重新选择图片',
+    '当前账号已被限制发布，请联系管理员',
+    '缺少必填字段',
+  ]
+  const known = knownMessages.find(message => raw.includes(message))
+  if (known) return known
+  if (raw.includes('security.imgSecCheck') || raw.includes('openapi')) {
+    return '图片内容安全接口调用失败，请确认 createListing 已重新部署并开通接口权限'
+  }
+  if (raw.includes('-504003') || raw.includes('FUNCTIONS_TIME_LIMIT_EXCEEDED') || raw.includes('timed out') || raw.includes('TIMEDOUT')) {
+    return 'createListing 执行超时，请在云开发控制台把该函数超时时间设置为10秒'
+  }
+  if (raw.includes('cloud.callFunction') || raw.includes('errCode')) {
+    const detail = raw.replace(/\s+/g, ' ').trim()
+    return `云函数错误：${detail.slice(-240)}`
+  }
+  return raw || '发布失败，请稍后重试'
+}
+
 Page({
   data: {
     categories,
@@ -93,10 +124,16 @@ Page({
         contactType,
         contactValue: form.contactValue.trim(), negotiable: form.negotiable,
       })
-      wx.showModal({ title:'发布成功', content:'物品已展示到广场；如有违规或争议，居民可举报后由管理员处理。', showCancel:false, success:() => {
+      wx.showModal({ title:'发布成功', content:'物品已保存，可在“我的发布”中查看；图片检测通过后会自动展示到广场。', showCancel:false, success:() => {
         this.setData({ images:[], form:{ title:'', price:'', description:'', sellerName:'', building:'', contactValue:'', negotiable:true }, agreed:false, remain: { title: LIMITS.title, description: LIMITS.description, sellerName: LIMITS.sellerName, building: LIMITS.building, contactValue: LIMITS.contactValue } })
         wx.navigateTo({ url:'/pages/my-listings/index' })
       } })
+    } catch (error) {
+      wx.showModal({
+        title: '发布失败',
+        content: getPublishErrorMessage(error),
+        showCancel: false,
+      })
     } finally { this.setData({ submitting:false }) }
   },
   openPrivacyContract,

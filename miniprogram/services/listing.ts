@@ -19,10 +19,26 @@ async function uploadImages(paths: string[]): Promise<string[]> {
   return results.map(result => result.fileID)
 }
 
+async function deleteCloudFiles(fileIDs: string[]) {
+  if (!fileIDs.length) return
+  try { await wx.cloud.deleteFile({ fileList: fileIDs }) } catch (error) { console.warn('delete unsafe listing images failed', error) }
+}
+
+function triggerImageCheck(id: string) {
+  void wx.cloud.callFunction({ name: 'checkListingImages', data: { id } }).catch(error => {
+    console.error('background image check failed', error)
+  })
+}
+
 export const listingService = {
   async list(): Promise<Listing[]> {
     ensureCloudInitialized()
     const result = await wx.cloud.callFunction({ name: 'listListings' }) as unknown as { result: { data: Listing[] } }
+    return result.result.data
+  },
+  async listMine(): Promise<Listing[]> {
+    ensureCloudInitialized()
+    const result = await wx.cloud.callFunction({ name: 'listListings', data: { scope: 'mine' } }) as unknown as { result: { data: Listing[] } }
     return result.result.data
   },
   async get(id: string): Promise<Listing | undefined> {
@@ -32,11 +48,21 @@ export const listingService = {
   },
   async create(input: Omit<Listing, 'id' | 'createdAt' | 'expiresAt' | 'views' | 'status'>): Promise<Listing> {
     const images = await uploadImages(input.images)
-    const result = await wx.cloud.callFunction({ name: 'createListing', data: { ...input, images } }) as unknown as { result: { id: string } }
-    return { ...input, id: result.result.id, status: 'active', views: 0, createdAt: new Date().toISOString().slice(0, 10), expiresAt: '', images }
+    try {
+      const result = await wx.cloud.callFunction({ name: 'createListing', data: { ...input, images } }) as unknown as { result: { id: string; expiresAt?: string } }
+      triggerImageCheck(result.result.id)
+      return { ...input, id: result.result.id, status: 'active', auditStatus: 'checking', auditMessage: '图片检测中', views: 0, createdAt: new Date().toISOString().slice(0, 10), expiresAt: result.result.expiresAt || '', images }
+    } catch (error) {
+      await deleteCloudFiles(images)
+      throw error
+    }
   },
   async updateStatus(id: string, status: Listing['status']): Promise<void> {
     ensureCloudInitialized()
     await wx.cloud.callFunction({ name: 'updateListingStatus', data: { id, status } })
+  },
+  async retryImageCheck(id: string): Promise<void> {
+    ensureCloudInitialized()
+    await wx.cloud.callFunction({ name: 'checkListingImages', data: { id } })
   },
 }

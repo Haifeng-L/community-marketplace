@@ -21,9 +21,14 @@ Page({
     try {
       const item = await listingService.get(options.id)
       const texts: Record<string,string> = { active:'在售', reserved:'已预定', sold:'已出', pending:'待审核', offline:'已下架', rejected:'未通过' }
+      const auditText = item?.auditStatus === 'checking'
+        ? '图片检测中'
+        : item?.auditStatus === 'risky'
+          ? '图片未通过'
+          : ''
       this.setData({
         item: item || null,
-        statusText: item ? texts[item.status] : '',
+        statusText: item ? (auditText || texts[item.status]) : '',
         contactLabel: item ? (CONTACT_LABELS[item.contactType] || '联系方式') : '',
         formattedDate: item ? formatDate(item.createdAt) : '',
         loading: false,

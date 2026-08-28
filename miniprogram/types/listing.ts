@@ -1,4 +1,5 @@
 export type ListingStatus = 'pending' | 'active' | 'reserved' | 'sold' | 'offline' | 'rejected'
+export type ListingAuditStatus = 'checking' | 'pass' | 'risky' | 'auto'
 
 export interface Listing {
   id: string
@@ -15,6 +16,8 @@ export interface Listing {
   contactValue: string
   negotiable: boolean
   status: ListingStatus
+  auditStatus?: ListingAuditStatus
+  auditMessage?: string
   createdAt: string
   expiresAt: string
   views: number

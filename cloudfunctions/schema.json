@@ -12,6 +12,6 @@
     { "key": "communityName", "value": "三湘邻里" },
     { "key": "welfareEnabled", "value": false },
     { "key": "inviteCode", "value": "SX202608" },
-    { "key": "listingExpireDays", "value": 30 }
+    { "key": "listingExpireDays", "value": 90 }
   ]
 }
