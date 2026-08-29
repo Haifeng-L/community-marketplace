@@ -22,6 +22,8 @@ function normalizeUser(user: Partial<CloudUser> | null | undefined): CloudUser |
     disabled: Boolean(user.disabled),
     displayName: String(user.displayName || '微信用户'),
     avatarUrl: typeof user.avatarUrl === 'string' ? user.avatarUrl : '',
+    wechatNickname: typeof user.wechatNickname === 'string' ? user.wechatNickname : '',
+    wechatAvatarUrl: typeof user.wechatAvatarUrl === 'string' ? user.wechatAvatarUrl : '',
     verifiedAt: user.verifiedAt ?? null,
   }
 }

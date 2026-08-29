@@ -17,7 +17,12 @@
 .prompt-action { flex:none; width:112rpx; height:56rpx; margin:0; padding:0; border:0; border-radius:999rpx; background:#16a085; color:#fff; font-size:24rpx; line-height:56rpx; }
 .prompt-action::after { border:0; }
 .prompt-action-hover { background:#0f8f76; }
-.name-editor { display:flex; align-items:center; gap:18rpx; margin-top:18rpx; padding:18rpx 24rpx; }
+.profile-editor { display:flex; align-items:center; gap:22rpx; margin-top:18rpx; padding:22rpx 24rpx; }
+.avatar-picker { position:relative; width:104rpx; height:104rpx; flex:none; margin:0; padding:0; border:0; border-radius:50%; background:transparent; overflow:hidden; }
+.avatar-picker::after { border:0; }
+.avatar-picker-hover { opacity:.86; }
+.avatar-tip { position:absolute; left:0; right:0; bottom:0; height:34rpx; line-height:34rpx; text-align:center; color:#fff; font-size:20rpx; background:rgba(0,0,0,.42); }
+.editor-main { min-width:0; flex:1; display:flex; align-items:center; gap:18rpx; }
 .name-input { min-width:0; flex:1; height:64rpx; padding:0 18rpx; box-sizing:border-box; border:1rpx solid #dfe7e7; border-radius:12rpx; color:#1f2d35; font-size:28rpx; background:#fff; }
 .name-actions { display:flex; align-items:center; gap:20rpx; flex:none; font-size:25rpx; }
 .name-cancel { color:#8a969b; }
