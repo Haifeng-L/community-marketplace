@@ -2,25 +2,58 @@
   <view class="profile card">
     <view class="avatar-wrap"><image wx:if="{{avatarUrl}}" class="avatar-image" src="{{avatarUrl}}" mode="aspectFill" /><view wx:else class="avatar">👤</view></view>
     <view class="profile-info"><view class="name">{{displayName}}</view><view class="muted">{{roleLabel}}</view><view class="muted profile-hint">{{profileHint}}</view></view>
-    <button wx:if="{{profileLoaded && !editingName && !showProfilePrompt}}" class="profile-edit" hover-class="profile-edit-hover" catchtap="startEditName">编辑</button>
+    <button wx:if="{{profileLoaded && !showProfilePrompt}}" class="profile-edit" hover-class="profile-edit-hover" catchtap="startEditName">编辑</button>
   </view>
-  <view wx:if="{{showProfilePrompt && !editingName}}" class="profile-prompt card">
-    <view class="prompt-copy"><view class="prompt-title">完善头像和昵称</view><view class="muted">先同意隐私保护指引，再由你主动选择头像、填写昵称</view></view>
-    <button class="prompt-action" hover-class="prompt-action-hover" open-type="agreePrivacyAuthorization" bindagreeprivacyauthorization="handlePrivacyAgree">去完善</button>
-  </view>
-  <view wx:if="{{editingName}}" class="profile-editor card">
-    <button class="avatar-picker" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar" hover-class="avatar-picker-hover">
-      <image wx:if="{{draftAvatarUrl}}" class="avatar-image" src="{{draftAvatarUrl}}" mode="aspectFill" />
-      <view wx:else class="avatar">👤</view>
-      <view class="avatar-tip">换头像</view>
-    </button>
-    <view class="editor-main">
-      <input class="name-input" type="nickname" maxlength="20" value="{{draftName}}" placeholder="请输入社区昵称" bindinput="onNameInput" confirm-type="done" bindconfirm="saveName" />
-      <view class="name-actions"><text class="name-cancel" bindtap="cancelEditName">取消</text><text class="name-save" bindtap="saveName">保存</text></view>
-    </view>
+  <view wx:if="{{showProfilePrompt}}" class="profile-prompt card">
+    <view class="prompt-copy"><view class="prompt-title">完善个人资料</view><view class="muted">设置头像和社区昵称，让邻居更容易认出你</view></view>
+    <button class="prompt-action" hover-class="prompt-action-hover" bindtap="beginProfileSetup">去完善</button>
   </view>
   <view class="section-title">我的闲置</view>
   <view class="menu card"><view class="menu-item" bindtap="goMyListings"><text>📝 我的发布</text><text>›</text></view><view class="menu-item" bindtap="goMyReports"><text>🛡 我的举报</text><text>›</text></view></view>
   <view class="section-title">平台服务</view>
   <view class="menu card"><view class="menu-item" wx:if="{{isAdmin}}" bindtap="goAdmin"><text>🛠 管理员工作台</text><text>›</text></view><view class="menu-item" bindtap="goRules"><text>📘 社区规则与安全提示</text><text>›</text></view><view class="menu-item" bindtap="goWelfare"><text>🎁 邻里福利（预留）</text><text>›</text></view><view class="menu-item" bindtap="openPrivacyContract"><text>🔒 用户隐私保护指引</text><text>›</text></view><view class="menu-item" bindtap="showAbout"><text>ℹ️ 关于平台</text><text>›</text></view></view>
+
+  <view wx:if="{{showPrivacyModal}}" class="modal-mask" catchtouchmove="preventTouchMove" bindtap="closePrivacyModal">
+    <view class="modal-panel privacy-modal" catchtap="stopPropagation">
+      <view class="modal-icon">🔒</view>
+      <view class="modal-title">个人资料使用说明</view>
+      <view class="modal-desc">为了在邻里闲置中展示你的身份，我们需要使用你主动选择的头像和填写的社区昵称。</view>
+      <view class="privacy-points">
+        <view class="privacy-point"><text class="point-dot"></text><text>头像和昵称仅用于社区身份展示</text></view>
+        <view class="privacy-point"><text class="point-dot"></text><text>不会自动读取其他微信资料</text></view>
+      </view>
+      <view class="privacy-read">点击“同意并继续”即表示你已阅读并同意<text class="privacy-link" catchtap="openPrivacyContract">《用户隐私保护指引》</text></view>
+      <view class="modal-actions">
+        <button class="modal-button secondary" bindtap="closePrivacyModal">暂不完善</button>
+        <button class="modal-button primary" open-type="agreePrivacyAuthorization" bindagreeprivacyauthorization="handlePrivacyAgree">同意并继续</button>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{editingName}}" class="modal-mask" catchtouchmove="preventTouchMove" bindtap="cancelEditName">
+    <view class="modal-panel profile-modal" catchtap="stopPropagation">
+      <view class="modal-header">
+        <view><view class="modal-title align-left">{{showProfilePrompt ? '完善个人资料' : '编辑个人资料'}}</view><view class="modal-subtitle">头像和昵称均由你主动选择和填写</view></view>
+        <text class="modal-close" bindtap="cancelEditName">×</text>
+      </view>
+      <view class="avatar-field">
+        <view class="avatar-picker-wrap">
+          <image wx:if="{{draftAvatarUrl}}" class="editor-avatar" src="{{draftAvatarUrl}}" mode="aspectFit" />
+          <view wx:else class="avatar editor-avatar">👤</view>
+          <button class="avatar-picker" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar"></button>
+        </view>
+        <view class="field-title">选择头像</view>
+        <view class="field-tip">点击头像，从微信头像或相册中选择</view>
+      </view>
+      <view class="nickname-field">
+        <view class="field-label">社区昵称</view>
+        <input class="name-input" type="nickname" maxlength="20" value="{{draftName}}" placeholder="请输入 2-20 个字符" bindinput="onNameInput" confirm-type="done" bindconfirm="saveName" />
+        <view class="input-tip">可使用微信昵称，也可以填写社区内常用称呼</view>
+      </view>
+      <view class="modal-actions profile-actions">
+        <button class="modal-button secondary" disabled="{{savingProfile}}" bindtap="cancelEditName">取消</button>
+        <button class="modal-button primary" loading="{{savingProfile}}" disabled="{{savingProfile}}" bindtap="saveName">{{savingProfile ? '保存中' : '保存资料'}}</button>
+      </view>
+    </view>
+  </view>
 </view>

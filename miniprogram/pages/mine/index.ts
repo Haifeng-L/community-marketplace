@@ -4,7 +4,8 @@ import { openPrivacyContract, requirePrivacyAuthorization } from '../../services
 Page({
   data: {
     displayName: '微信用户', avatarUrl: '', isAdmin: false, roleLabel: '身份同步中',
-    profileHint: '完善资料后，邻居更容易认出你', showProfilePrompt: false, editingName: false,
+    profileHint: '完善资料后，邻居更容易认出你', showProfilePrompt: false,
+    showPrivacyModal: false, editingName: false,
     draftName: '', draftAvatarUrl: '', savingProfile: false, profileLoaded: false,
   },
   async onShow() {
@@ -16,31 +17,67 @@ Page({
     this.setData({
       displayName: user?.displayName || '微信用户', avatarUrl: user?.avatarUrl || '',
       isAdmin: canAccessAdmin(user), roleLabel: getRoleLabel(user),
-      profileHint: user?.wechatNickname || user?.wechatAvatarUrl ? '头像昵称已完善' : '完善资料后，邻居更容易认出你',
-      showProfilePrompt: !(user?.wechatNickname || user?.wechatAvatarUrl),
+      profileHint: user?.wechatNickname && user?.wechatAvatarUrl ? '头像昵称已完善' : '完善资料后，邻居更容易认出你',
+      showProfilePrompt: !(user?.wechatNickname && user?.wechatAvatarUrl),
       draftName: user?.displayName || '', draftAvatarUrl: user?.avatarUrl || '',
       profileLoaded: true,
     })
   },
-  async handlePrivacyAgree() {
-    try { await requirePrivacyAuthorization() }
-    catch { wx.showToast({ title: '同意隐私指引后才能完善资料', icon: 'none' }); return }
+  beginProfileSetup() {
+    if (typeof wx.getPrivacySetting !== 'function') {
+      this.authorizePrivacyAndOpenEditor()
+      return
+    }
+    wx.getPrivacySetting({
+      success: ({ needAuthorization }) => {
+        if (needAuthorization) {
+          this.setData({ showPrivacyModal: true })
+          return
+        }
+        this.openProfileEditor(true)
+      },
+      fail: () => {
+        wx.showModal({
+          title: '暂时无法获取隐私设置',
+          content: '请确认小程序后台已配置并发布《用户隐私保护指引》，然后重新编译再试。',
+          showCancel: false,
+        })
+      },
+    })
+  },
+  async authorizePrivacyAndOpenEditor() {
+    try {
+      await requirePrivacyAuthorization()
+      this.openProfileEditor(true)
+    } catch {
+      wx.showToast({ title: '同意隐私指引后才能完善资料', icon: 'none' })
+    }
+  },
+  handlePrivacyAgree() {
+    this.setData({ showPrivacyModal: false })
     this.openProfileEditor(true)
   },
+  closePrivacyModal() { this.setData({ showPrivacyModal: false }) },
   startEditName() { this.openProfileEditor(false) },
   openProfileEditor(fromPrivacyAgree: boolean) {
     const user = getCurrentUser()
-    if (!fromPrivacyAgree && !(user?.wechatNickname || user?.wechatAvatarUrl)) {
+    if (!fromPrivacyAgree && !(user?.wechatNickname && user?.wechatAvatarUrl)) {
       wx.showToast({ title: '请先点击去完善', icon: 'none' })
       return
     }
     this.setData({ editingName: true, draftName: user?.displayName || this.data.displayName || '', draftAvatarUrl: user?.avatarUrl || this.data.avatarUrl || '' })
   },
   onChooseAvatar(event: WechatMiniprogram.CustomEvent<{ avatarUrl: string }>) {
-    this.setData({ draftAvatarUrl: event.detail.avatarUrl })
+    const avatarUrl = event.detail.avatarUrl
+    if (avatarUrl) this.setData({ draftAvatarUrl: avatarUrl })
   },
   onNameInput(event: WechatMiniprogram.Input) { this.setData({ draftName: event.detail.value }) },
-  cancelEditName() { this.setData({ editingName: false, draftName: this.data.displayName, draftAvatarUrl: this.data.avatarUrl }) },
+  cancelEditName() {
+    if (this.data.savingProfile) return
+    this.setData({ editingName: false, draftName: this.data.displayName, draftAvatarUrl: this.data.avatarUrl })
+  },
+  stopPropagation() {},
+  preventTouchMove() {},
   async uploadAvatarIfNeeded(avatarUrl: string): Promise<string> {
     if (!avatarUrl || avatarUrl.startsWith('cloud://') || avatarUrl.startsWith('http://') || avatarUrl.startsWith('https://')) return avatarUrl
     const user = getCurrentUser()
